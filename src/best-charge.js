@@ -80,7 +80,6 @@ function discountInfo(receiptItems, allPromotions) {
   }
   subCash = parseInt(subCash / 30) * 6;
   if (discountCash > subCash) {
-    console.log(discountSet);
     saved = discountCash;
     type = halfPromotions.type;
     discountStr = "(";
@@ -102,6 +101,7 @@ function discountInfo(receiptItems, allPromotions) {
     saved,
     discountStr
   }
+  console.log(discountInfo);
   return discountInfo;
 }
 function countTotal(receiptItems, saved) {
@@ -130,4 +130,4 @@ ${discountedInfo.type}${discountedInfo.discountStr}，省${discountedInfo.saved}
 ===================================`
   return receiptStr;
 }
-module.exports = { bestCharge };
+  module.exports = {formatItems, bestCharge,discountInfo };

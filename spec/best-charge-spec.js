@@ -1,4 +1,5 @@
-const {bestCharge} = require('../src/best-charge.js')
+const {discountInfo,formatItems,bestCharge} = require('../src/best-charge.js')
+const loadPromotions = require('../src/promotions');
 describe('Take out food', function () {
 
   it('should generate best charge when best is 指定菜品半价', function() {
@@ -46,4 +47,19 @@ describe('Take out food', function () {
     expect(summary).toEqual(expected)
   });
 
+});
+it('should format the inputs [id,count]', function() {
+  let inputs = ["ITEM0001 x 1", "ITEM0013 x 2", "ITEM0022 x 1"];
+  let summary = JSON.stringify(formatItems(inputs));
+  let expected = JSON.stringify([{ id: 'ITEM0001', count: 1 },
+  { id: 'ITEM0013', count: 2 },{ id: 'ITEM0022', count: 1 } ]);
+  expect(summary).toEqual(expected)
+});
+it ('should count the discountInfo[type,str,saved]', function() {
+  let inputs = [ { id: 'ITEM0001', name: '黄焖鸡', count: 1, subTotal: 18 },
+  { id: 'ITEM0013', name: '肉夹馍', count: 2, subTotal: 12 },
+  { id: 'ITEM0022', name: '凉皮', count: 1, subTotal: 8 } ];
+  let summary = JSON.stringify(discountInfo(inputs,loadPromotions()));
+  let expected = JSON.stringify({ type: '指定菜品半价', saved: 13, discountStr: '(黄焖鸡，凉皮)' });
+  expect(summary).toEqual(expected);
 });
